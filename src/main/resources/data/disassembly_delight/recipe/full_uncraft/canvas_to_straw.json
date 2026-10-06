@@ -1,0 +1,13 @@
+{
+  "type": "disassembly_delight:full_uncraft",
+  "input": {
+    "item": "farmersdelight:canvas"
+  },
+  "consume": 1,
+  "results": [
+    {
+      "id": "farmersdelight:straw",
+      "count": 4
+    }
+  ]
+}

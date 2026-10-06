@@ -1,0 +1,27 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "sophisticatedstorage"
+    }
+  ],
+  "type": "disassembly_delight:full_uncraft",
+  "input": {
+    "item": "sophisticatedstorage:controller"
+  },
+  "consume": 1,
+  "results": [
+    {
+      "id": "minecraft:comparator",
+      "count": 2
+    },
+    {
+      "id": "minecraft:oak_planks",
+      "count": 2
+    },
+    {
+      "id": "minecraft:stone",
+      "count": 4
+    }
+  ]
+}

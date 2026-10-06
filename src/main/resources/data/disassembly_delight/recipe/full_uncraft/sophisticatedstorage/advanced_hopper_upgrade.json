@@ -1,0 +1,35 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "sophisticatedstorage"
+    }
+  ],
+  "type": "disassembly_delight:full_uncraft",
+  "input": {
+    "item": "sophisticatedstorage:advanced_hopper_upgrade"
+  },
+  "consume": 1,
+  "results": [
+    {
+      "id": "minecraft:diamond",
+      "count": 1
+    },
+    {
+      "id": "minecraft:dropper",
+      "count": 1
+    },
+    {
+      "id": "minecraft:gold_ingot",
+      "count": 2
+    },
+    {
+      "id": "minecraft:redstone",
+      "count": 2
+    },
+    {
+      "id": "sophisticatedstorage:hopper_upgrade",
+      "count": 1
+    }
+  ]
+}

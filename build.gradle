@@ -1,0 +1,172 @@
+plugins {
+    id 'java-library'
+    id 'maven-publish'
+    id 'net.neoforged.moddev' version '2.0.147'
+    id 'idea'
+}
+
+tasks.named('wrapper', Wrapper).configure {
+    distributionType = Wrapper.DistributionType.BIN
+}
+
+version = mod_version
+group = mod_group_id
+
+sourceSets.main.resources {
+    srcDir('src/generated/resources')
+    exclude("**/*.bbmodel")
+    exclude("src/generated/**/.cache")
+}
+
+repositories {
+}
+
+base {
+    archivesName = "disassembly_delight"
+}
+
+java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+
+sourceSets {
+    gametest {
+        compileClasspath += sourceSets.main.output
+        runtimeClasspath += sourceSets.main.output
+    }
+}
+
+neoForge {
+    version = project.neo_version
+
+    parchment {
+        mappingsVersion = project.parchment_mappings_version
+        minecraftVersion = project.parchment_minecraft_version
+    }
+
+    accessTransformers = project.files('src/main/resources/META-INF/accesstransformer.cfg')
+
+    // Minecraft/NeoForge classes for the game-test source set.
+    addModdingDependenciesTo(sourceSets.gametest)
+
+    runs {
+        client {
+            client()
+            systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
+        }
+        server {
+            server()
+            programArgument '--nogui'
+            systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
+        }
+        // End-to-end tests (src/gametest): ./gradlew runGameTestServer
+        gameTestServer {
+            type = "gameTestServer"
+            sourceSet = sourceSets.gametest
+            systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
+        }
+        configureEach {
+            systemProperty 'forge.logging.markers', 'REGISTRIES'
+            logLevel = org.slf4j.event.Level.DEBUG
+        }
+    }
+
+    mods {
+        "${mod_id}" {
+            sourceSet(sourceSets.main)
+            // Game tests are part of the mod in dev runs only; the jar is built from main alone.
+            sourceSet(sourceSets.gametest)
+        }
+    }
+
+    // JUnit tests run inside a bootstrapped game (registries, components, codecs) via FML's JUnit support.
+    unitTest {
+        enable()
+        testedMod = mods."${mod_id}"
+    }
+}
+
+configurations {
+    runtimeClasspath.extendsFrom localRuntime
+    gametestImplementation.extendsFrom implementation
+    gametestCompileOnly.extendsFrom compileOnly
+    gametestRuntimeClasspath.extendsFrom runtimeClasspath
+}
+
+dependencies {
+    // Farmer's Delight API at compile time only (runtime provided by the game; do not shade).
+    compileOnly files('libs/FarmersDelight.jar')
+    // Optional Sophisticated Backpacks upgrade API. Not shipped; present at runtime when that mod is loaded.
+    compileOnly files('libs/sophisticatedcore.jar', 'libs/sophisticatedbackpacks.jar')
+
+    // Tests: Farmer's Delight is a required dependency of this mod, so the test game loads it too.
+    // Sophisticated Backpacks/Core are loaded as well so the Disassembler Upgrade (and its legacy alias) is tested.
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.2'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    testRuntimeOnly files('libs/FarmersDelight.jar', 'libs/sophisticatedcore.jar', 'libs/sophisticatedbackpacks.jar')
+    gametestRuntimeOnly files('libs/FarmersDelight.jar', 'libs/sophisticatedcore.jar', 'libs/sophisticatedbackpacks.jar')
+}
+
+// Rule C coverage: every container item found in the modpack scan is emptied by a reader or passes through.
+// Skipped when the scan folder (proposals.csv + jars/) is not present on this machine.
+def decraftScan = providers.environmentVariable('FD_DECRAFT_SCAN').orElse('/workspace/fd-decraft-scan').get()
+tasks.register('checkContainerCoverage', Exec) {
+    group = 'verification'
+    description = 'Checks that every container item in the pack scan is emptied or passes through (Rule C).'
+    inputs.file('src/main/resources/disassembly_delight/container_rules.json')
+    inputs.file('scripts/check_container_coverage.py')
+    onlyIf { new File(decraftScan, 'proposals.csv').exists() }
+    commandLine 'python3', 'scripts/check_container_coverage.py', '--scan', decraftScan
+}
+tasks.named('check') { dependsOn 'checkContainerCoverage' }
+
+tasks.named('test', Test).configure {
+    useJUnitPlatform()
+    testLogging {
+        events 'passed', 'skipped', 'failed'
+        exceptionFormat = 'full'
+    }
+}
+
+var generateModMetadata = tasks.register("generateModMetadata", ProcessResources) {
+    var replaceProperties = [
+            minecraft_version      : minecraft_version,
+            minecraft_version_range: minecraft_version_range,
+            neo_version            : neo_version,
+            loader_version_range   : loader_version_range,
+            mod_id                 : mod_id,
+            mod_name               : mod_name,
+            mod_license            : mod_license,
+            mod_version            : mod_version,
+            mod_authors            : mod_authors,
+            mod_description        : mod_description,
+    ]
+    inputs.properties replaceProperties
+    expand replaceProperties
+    from "src/main/templates"
+    into "build/generated/sources/modMetadata"
+}
+sourceSets.main.resources.srcDir generateModMetadata
+neoForge.ideSyncTask generateModMetadata
+
+publishing {
+    publications {
+        register('mavenJava', MavenPublication) {
+            from components.java
+        }
+    }
+    repositories {
+        maven {
+            url "file://${project.projectDir}/repo"
+        }
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
+
+idea {
+    module {
+        downloadSources = true
+        downloadJavadoc = true
+    }
+}

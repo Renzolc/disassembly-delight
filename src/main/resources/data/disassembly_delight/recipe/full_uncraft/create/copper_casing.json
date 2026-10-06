@@ -1,0 +1,23 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "create"
+    }
+  ],
+  "type": "disassembly_delight:full_uncraft",
+  "input": {
+    "item": "create:copper_casing"
+  },
+  "consume": 1,
+  "results": [
+    {
+      "id": "minecraft:copper_ingot",
+      "count": 1
+    },
+    {
+      "id": "minecraft:stripped_oak_log",
+      "count": 1
+    }
+  ]
+}

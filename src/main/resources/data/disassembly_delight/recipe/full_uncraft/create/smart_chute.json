@@ -1,0 +1,27 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "create"
+    }
+  ],
+  "type": "disassembly_delight:full_uncraft",
+  "input": {
+    "item": "create:smart_chute"
+  },
+  "consume": 1,
+  "results": [
+    {
+      "id": "create:brass_sheet",
+      "count": 1
+    },
+    {
+      "id": "create:chute",
+      "count": 1
+    },
+    {
+      "id": "create:electron_tube",
+      "count": 1
+    }
+  ]
+}

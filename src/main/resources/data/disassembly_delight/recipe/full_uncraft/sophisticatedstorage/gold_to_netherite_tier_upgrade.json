@@ -1,0 +1,23 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "sophisticatedstorage"
+    }
+  ],
+  "type": "disassembly_delight:full_uncraft",
+  "input": {
+    "item": "sophisticatedstorage:gold_to_netherite_tier_upgrade"
+  },
+  "consume": 1,
+  "results": [
+    {
+      "id": "minecraft:netherite_ingot",
+      "count": 1
+    },
+    {
+      "id": "sophisticatedstorage:gold_to_diamond_tier_upgrade",
+      "count": 1
+    }
+  ]
+}

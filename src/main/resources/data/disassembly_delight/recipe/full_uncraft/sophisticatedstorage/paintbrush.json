@@ -1,0 +1,23 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "sophisticatedstorage"
+    }
+  ],
+  "type": "disassembly_delight:full_uncraft",
+  "input": {
+    "item": "sophisticatedstorage:paintbrush"
+  },
+  "consume": 1,
+  "results": [
+    {
+      "id": "minecraft:stick",
+      "count": 2
+    },
+    {
+      "id": "minecraft:white_wool",
+      "count": 2
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "create"
+    }
+  ],
+  "type": "disassembly_delight:full_uncraft",
+  "input": {
+    "item": "create:linked_controller"
+  },
+  "consume": 1,
+  "results": [
+    {
+      "id": "create:redstone_link",
+      "count": 1
+    },
+    {
+      "id": "quark:ancient_button",
+      "count": 6
+    }
+  ]
+}

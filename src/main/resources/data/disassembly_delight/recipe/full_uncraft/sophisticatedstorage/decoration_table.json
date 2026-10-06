@@ -1,0 +1,27 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "sophisticatedstorage"
+    }
+  ],
+  "type": "disassembly_delight:full_uncraft",
+  "input": {
+    "item": "sophisticatedstorage:decoration_table"
+  },
+  "consume": 1,
+  "results": [
+    {
+      "id": "minecraft:oak_log",
+      "count": 3
+    },
+    {
+      "id": "minecraft:oak_planks",
+      "count": 4
+    },
+    {
+      "id": "sophisticatedstorage:upgrade_base",
+      "count": 1
+    }
+  ]
+}

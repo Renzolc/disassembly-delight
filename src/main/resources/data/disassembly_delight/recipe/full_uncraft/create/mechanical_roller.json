@@ -1,0 +1,27 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "create"
+    }
+  ],
+  "type": "disassembly_delight:full_uncraft",
+  "input": {
+    "item": "create:mechanical_roller"
+  },
+  "consume": 1,
+  "results": [
+    {
+      "id": "create:andesite_casing",
+      "count": 1
+    },
+    {
+      "id": "create:crushing_wheel",
+      "count": 1
+    },
+    {
+      "id": "create:electron_tube",
+      "count": 1
+    }
+  ]
+}

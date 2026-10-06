@@ -1,0 +1,27 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "sophisticatedbackpacks"
+    }
+  ],
+  "type": "disassembly_delight:full_uncraft",
+  "input": {
+    "item": "sophisticatedbackpacks:stack_downgrade_tier_3"
+  },
+  "consume": 1,
+  "results": [
+    {
+      "id": "minecraft:flint",
+      "count": 5
+    },
+    {
+      "id": "minecraft:stick",
+      "count": 3
+    },
+    {
+      "id": "sophisticatedbackpacks:upgrade_base",
+      "count": 1
+    }
+  ]
+}

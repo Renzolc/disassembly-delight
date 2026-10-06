@@ -1,0 +1,27 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "create"
+    }
+  ],
+  "type": "disassembly_delight:full_uncraft",
+  "input": {
+    "item": "create:controls"
+  },
+  "consume": 1,
+  "results": [
+    {
+      "id": "create:precision_mechanism",
+      "count": 1
+    },
+    {
+      "id": "create:railway_casing",
+      "count": 1
+    },
+    {
+      "id": "minecraft:lever",
+      "count": 1
+    }
+  ]
+}

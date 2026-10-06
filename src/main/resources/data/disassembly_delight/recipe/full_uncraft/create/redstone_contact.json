@@ -1,0 +1,27 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "create"
+    }
+  ],
+  "type": "disassembly_delight:full_uncraft",
+  "input": {
+    "item": "create:redstone_contact"
+  },
+  "consume": 2,
+  "results": [
+    {
+      "id": "create:iron_sheet",
+      "count": 2
+    },
+    {
+      "id": "minecraft:cobblestone",
+      "count": 5
+    },
+    {
+      "id": "minecraft:redstone",
+      "count": 1
+    }
+  ]
+}

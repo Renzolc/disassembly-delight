@@ -1,0 +1,23 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "sophisticatedbackpacks"
+    }
+  ],
+  "type": "disassembly_delight:full_uncraft",
+  "input": {
+    "item": "sophisticatedbackpacks:iron_backpack"
+  },
+  "consume": 1,
+  "results": [
+    {
+      "id": "minecraft:iron_ingot",
+      "count": 4
+    },
+    {
+      "id": "sophisticatedbackpacks:copper_backpack",
+      "count": 1
+    }
+  ]
+}

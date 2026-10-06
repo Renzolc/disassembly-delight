@@ -1,0 +1,27 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "create"
+    }
+  ],
+  "type": "disassembly_delight:full_uncraft",
+  "input": {
+    "item": "create:sequenced_gearshift"
+  },
+  "consume": 1,
+  "results": [
+    {
+      "id": "create:brass_casing",
+      "count": 1
+    },
+    {
+      "id": "create:cogwheel",
+      "count": 1
+    },
+    {
+      "id": "create:electron_tube",
+      "count": 1
+    }
+  ]
+}

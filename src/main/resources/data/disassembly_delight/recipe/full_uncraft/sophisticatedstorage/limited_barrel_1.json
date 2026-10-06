@@ -1,0 +1,27 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "sophisticatedstorage"
+    }
+  ],
+  "type": "disassembly_delight:full_uncraft",
+  "input": {
+    "item": "sophisticatedstorage:limited_barrel_1"
+  },
+  "consume": 1,
+  "results": [
+    {
+      "id": "minecraft:lever",
+      "count": 1
+    },
+    {
+      "id": "minecraft:oak_planks",
+      "count": 7
+    },
+    {
+      "id": "minecraft:oak_slab",
+      "count": 1
+    }
+  ]
+}

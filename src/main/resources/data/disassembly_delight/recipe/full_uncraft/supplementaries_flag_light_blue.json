@@ -1,0 +1,23 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "supplementaries"
+    }
+  ],
+  "type": "disassembly_delight:full_uncraft",
+  "input": {
+    "item": "supplementaries:flag_light_blue"
+  },
+  "consume": 1,
+  "results": [
+    {
+      "id": "minecraft:light_blue_wool",
+      "count": 6
+    },
+    {
+      "id": "minecraft:stick",
+      "count": 1
+    }
+  ]
+}

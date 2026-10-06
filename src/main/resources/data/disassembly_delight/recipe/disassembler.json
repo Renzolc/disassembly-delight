@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "show_notification": true,
+  "key": {
+    "C": {
+      "item": "farmersdelight:cutting_board"
+    },
+    "K": {
+      "tag": "c:tools/knife"
+    },
+    "A": {
+      "tag": "minecraft:axes"
+    },
+    "P": {
+      "tag": "minecraft:pickaxes"
+    }
+  },
+  "pattern": [
+    "CCC",
+    "KAP",
+    "CCC"
+  ],
+  "result": {
+    "count": 1,
+    "id": "disassembly_delight:disassembler"
+  }
+}

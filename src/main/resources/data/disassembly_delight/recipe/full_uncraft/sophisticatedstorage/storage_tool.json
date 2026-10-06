@@ -1,0 +1,31 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "sophisticatedstorage"
+    }
+  ],
+  "type": "disassembly_delight:full_uncraft",
+  "input": {
+    "item": "sophisticatedstorage:storage_tool"
+  },
+  "consume": 1,
+  "results": [
+    {
+      "id": "minecraft:ender_pearl",
+      "count": 1
+    },
+    {
+      "id": "minecraft:iron_ingot",
+      "count": 1
+    },
+    {
+      "id": "minecraft:redstone_torch",
+      "count": 1
+    },
+    {
+      "id": "minecraft:stick",
+      "count": 2
+    }
+  ]
+}

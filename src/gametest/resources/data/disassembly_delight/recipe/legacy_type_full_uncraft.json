@@ -1,0 +1,13 @@
+{
+  "type": "fd_storage_compat:full_uncraft",
+  "input": {
+    "item": "minecraft:dead_bush"
+  },
+  "consume": 1,
+  "results": [
+    {
+      "id": "minecraft:stick",
+      "count": 2
+    }
+  ]
+}

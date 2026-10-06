@@ -1,0 +1,50 @@
+modLoader="javafml"
+loaderVersion="${loader_version_range}"
+license="${mod_license}"
+issueTrackerURL="https://github.com/Renzolc/disassembly-delight/issues"
+
+[[mods]]
+modId="${mod_id}"
+version="${mod_version}"
+displayName="${mod_name}"
+authors="${mod_authors}"
+displayURL="https://github.com/Renzolc/disassembly-delight"
+description='''${mod_description}'''
+
+[[dependencies.${mod_id}]]
+    modId="neoforge"
+    type="required"
+    versionRange="[21.1,)"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.${mod_id}]]
+    modId="minecraft"
+    type="required"
+    versionRange="${minecraft_version_range}"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.${mod_id}]]
+    modId="farmersdelight"
+    type="required"
+    versionRange="[1.2,)"
+    ordering="AFTER"
+    side="BOTH"
+
+[[dependencies.${mod_id}]]
+    modId="sophisticatedbackpacks"
+    type="optional"
+    versionRange="[3.20,)"
+    ordering="AFTER"
+    side="BOTH"
+
+# Farmer's Delight Tweaks 1.0.x still registers fd_storage_compat:decrafter itself, which would stop the
+# migration aliases from applying (and give two copies of the same machine). 1.1.0 and newer is fine.
+[[dependencies.${mod_id}]]
+    modId="fd_storage_compat"
+    type="incompatible"
+    reason="Update Farmer’s Delight Tweaks to 1.1.0 or newer: older versions still contain the Decrafter, which Disassembly Delight replaces with the Disassembly Table."
+    versionRange="(,1.1.0)"
+    ordering="NONE"
+    side="BOTH"

@@ -1,0 +1,27 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "create"
+    }
+  ],
+  "type": "disassembly_delight:full_uncraft",
+  "input": {
+    "item": "create:crushing_wheel"
+  },
+  "consume": 2,
+  "results": [
+    {
+      "id": "create:andesite_alloy",
+      "count": 16
+    },
+    {
+      "id": "minecraft:oak_planks",
+      "count": 4
+    },
+    {
+      "id": "minecraft:stone",
+      "count": 1
+    }
+  ]
+}

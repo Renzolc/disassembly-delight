@@ -1,0 +1,23 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "supplementaries"
+    }
+  ],
+  "type": "disassembly_delight:full_uncraft",
+  "input": {
+    "item": "supplementaries:wild_flax"
+  },
+  "consume": 1,
+  "results": [
+    {
+      "id": "supplementaries:flax_seeds",
+      "count": 1
+    },
+    {
+      "id": "supplementaries:flax",
+      "count": 1
+    }
+  ]
+}

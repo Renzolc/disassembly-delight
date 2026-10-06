@@ -1,0 +1,23 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "create"
+    }
+  ],
+  "type": "disassembly_delight:full_uncraft",
+  "input": {
+    "item": "create:factory_gauge"
+  },
+  "consume": 2,
+  "results": [
+    {
+      "id": "create:precision_mechanism",
+      "count": 2
+    },
+    {
+      "id": "create:stock_link",
+      "count": 2
+    }
+  ]
+}

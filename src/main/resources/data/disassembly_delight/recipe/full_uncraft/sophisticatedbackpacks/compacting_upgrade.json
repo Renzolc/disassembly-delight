@@ -1,0 +1,31 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "sophisticatedbackpacks"
+    }
+  ],
+  "type": "disassembly_delight:full_uncraft",
+  "input": {
+    "item": "sophisticatedbackpacks:compacting_upgrade"
+  },
+  "consume": 1,
+  "results": [
+    {
+      "id": "minecraft:iron_ingot",
+      "count": 2
+    },
+    {
+      "id": "minecraft:piston",
+      "count": 4
+    },
+    {
+      "id": "minecraft:redstone",
+      "count": 2
+    },
+    {
+      "id": "sophisticatedbackpacks:upgrade_base",
+      "count": 1
+    }
+  ]
+}

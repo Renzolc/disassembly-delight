@@ -1,0 +1,27 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "create"
+    }
+  ],
+  "type": "disassembly_delight:full_uncraft",
+  "input": {
+    "item": "create:stock_ticker"
+  },
+  "consume": 1,
+  "results": [
+    {
+      "id": "create:stock_link",
+      "count": 1
+    },
+    {
+      "id": "minecraft:glass",
+      "count": 1
+    },
+    {
+      "id": "minecraft:gold_ingot",
+      "count": 1
+    }
+  ]
+}

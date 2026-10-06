@@ -1,0 +1,27 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "create"
+    }
+  ],
+  "type": "disassembly_delight:full_uncraft",
+  "input": {
+    "item": "create:metal_bracket"
+  },
+  "consume": 4,
+  "results": [
+    {
+      "id": "create:andesite_alloy",
+      "count": 4
+    },
+    {
+      "id": "minecraft:iron_ingot",
+      "count": 2
+    },
+    {
+      "id": "minecraft:iron_nugget",
+      "count": 3
+    }
+  ]
+}

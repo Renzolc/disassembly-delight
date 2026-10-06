@@ -1,0 +1,23 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "sophisticatedstorage"
+    }
+  ],
+  "type": "disassembly_delight:full_uncraft",
+  "input": {
+    "item": "sophisticatedstorage:copper_chest"
+  },
+  "consume": 1,
+  "results": [
+    {
+      "id": "minecraft:copper_ingot",
+      "count": 8
+    },
+    {
+      "id": "sophisticatedstorage:chest",
+      "count": 1
+    }
+  ]
+}

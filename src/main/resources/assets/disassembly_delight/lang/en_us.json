@@ -1,0 +1,10 @@
+{
+  "itemGroup.disassembly_delight": "Disassembly Delight",
+  "block.disassembly_delight.disassembler": "Disassembly Table",
+  "container.disassembly_delight.disassembler": "Disassembly Table",
+  "item.disassembly_delight.disassembler_upgrade": "Disassembly Table Upgrade",
+  "item.disassembly_delight.disassembler_upgrade.tooltip": "Put an item in the slot. Any crafting recipe is disassembled at full counts into the backpack, stored items first. If they do not fit, the item stays.",
+  "gui.disassembly_delight.disassembler_upgrade": "Disassembly Table Upgrade",
+  "gui.disassembly_delight.disassembler_upgrade.tooltip": "Full ingredients go into the backpack",
+  "gui.disassembly_delight.disassembler_upgrade.into_backpack": "Into backpack"
+}

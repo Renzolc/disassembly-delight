@@ -1,0 +1,23 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "create"
+    }
+  ],
+  "type": "disassembly_delight:full_uncraft",
+  "input": {
+    "item": "create:copper_valve_handle"
+  },
+  "consume": 1,
+  "results": [
+    {
+      "id": "create:andesite_alloy",
+      "count": 1
+    },
+    {
+      "id": "create:copper_sheet",
+      "count": 3
+    }
+  ]
+}

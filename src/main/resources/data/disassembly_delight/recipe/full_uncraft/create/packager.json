@@ -1,0 +1,27 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "create"
+    }
+  ],
+  "type": "disassembly_delight:full_uncraft",
+  "input": {
+    "item": "create:packager"
+  },
+  "consume": 1,
+  "results": [
+    {
+      "id": "create:cardboard_block",
+      "count": 1
+    },
+    {
+      "id": "minecraft:iron_ingot",
+      "count": 4
+    },
+    {
+      "id": "minecraft:redstone",
+      "count": 2
+    }
+  ]
+}

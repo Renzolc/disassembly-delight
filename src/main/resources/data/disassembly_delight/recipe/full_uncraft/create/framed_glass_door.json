@@ -1,0 +1,23 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "create"
+    }
+  ],
+  "type": "disassembly_delight:full_uncraft",
+  "input": {
+    "item": "create:framed_glass_door"
+  },
+  "consume": 1,
+  "results": [
+    {
+      "id": "create:framed_glass",
+      "count": 1
+    },
+    {
+      "id": "quark:ancient_door",
+      "count": 1
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "sophisticatedbackpacks"
+    }
+  ],
+  "type": "disassembly_delight:full_uncraft",
+  "input": {
+    "item": "disassembly_delight:disassembler_upgrade"
+  },
+  "consume": 1,
+  "results": [
+    {
+      "id": "minecraft:leather",
+      "count": 4
+    },
+    {
+      "id": "disassembly_delight:disassembler",
+      "count": 1
+    }
+  ]
+}

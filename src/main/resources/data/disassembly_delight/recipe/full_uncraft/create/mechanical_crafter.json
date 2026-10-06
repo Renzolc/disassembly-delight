@@ -1,0 +1,27 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "create"
+    }
+  ],
+  "type": "disassembly_delight:full_uncraft",
+  "input": {
+    "item": "create:mechanical_crafter"
+  },
+  "consume": 3,
+  "results": [
+    {
+      "id": "create:brass_casing",
+      "count": 3
+    },
+    {
+      "id": "create:electron_tube",
+      "count": 1
+    },
+    {
+      "id": "minecraft:crafting_table",
+      "count": 1
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "sophisticatedbackpacks"
+    }
+  ],
+  "type": "disassembly_delight:full_uncraft",
+  "input": {
+    "item": "sophisticatedbackpacks:smithing_upgrade"
+  },
+  "consume": 1,
+  "results": [
+    {
+      "id": "minecraft:chest",
+      "count": 1
+    },
+    {
+      "id": "minecraft:iron_ingot",
+      "count": 2
+    },
+    {
+      "id": "minecraft:smithing_table",
+      "count": 1
+    },
+    {
+      "id": "sophisticatedbackpacks:upgrade_base",
+      "count": 1
+    }
+  ]
+}

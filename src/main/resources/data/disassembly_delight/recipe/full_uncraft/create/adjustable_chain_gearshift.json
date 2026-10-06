@@ -1,0 +1,23 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "create"
+    }
+  ],
+  "type": "disassembly_delight:full_uncraft",
+  "input": {
+    "item": "create:adjustable_chain_gearshift"
+  },
+  "consume": 1,
+  "results": [
+    {
+      "id": "create:electron_tube",
+      "count": 1
+    },
+    {
+      "id": "create:encased_chain_drive",
+      "count": 1
+    }
+  ]
+}

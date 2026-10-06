@@ -1,0 +1,27 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "create"
+    }
+  ],
+  "type": "disassembly_delight:full_uncraft",
+  "input": {
+    "item": "create:powered_toggle_latch"
+  },
+  "consume": 1,
+  "results": [
+    {
+      "id": "minecraft:lever",
+      "count": 1
+    },
+    {
+      "id": "minecraft:redstone_torch",
+      "count": 1
+    },
+    {
+      "id": "minecraft:stone",
+      "count": 3
+    }
+  ]
+}

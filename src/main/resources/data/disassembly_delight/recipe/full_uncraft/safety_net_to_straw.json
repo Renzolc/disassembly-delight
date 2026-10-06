@@ -1,0 +1,13 @@
+{
+  "type": "disassembly_delight:full_uncraft",
+  "input": {
+    "item": "farmersdelight:safety_net"
+  },
+  "consume": 1,
+  "results": [
+    {
+      "id": "farmersdelight:rope",
+      "count": 4
+    }
+  ]
+}

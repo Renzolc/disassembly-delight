@@ -1,0 +1,23 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "sophisticatedstorage"
+    }
+  ],
+  "type": "disassembly_delight:full_uncraft",
+  "input": {
+    "item": "sophisticatedstorage:iron_barrel"
+  },
+  "consume": 1,
+  "results": [
+    {
+      "id": "minecraft:iron_ingot",
+      "count": 4
+    },
+    {
+      "id": "sophisticatedstorage:copper_barrel",
+      "count": 1
+    }
+  ]
+}

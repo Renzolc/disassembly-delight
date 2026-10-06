@@ -1,0 +1,23 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "handcrafted"
+    }
+  ],
+  "type": "disassembly_delight:full_uncraft",
+  "input": {
+    "item": "handcrafted:red_sheet"
+  },
+  "consume": 1,
+  "results": [
+    {
+      "id": "handcrafted:black_sheet",
+      "count": 1
+    },
+    {
+      "id": "minecraft:red_dye",
+      "count": 1
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "create"
+    }
+  ],
+  "type": "disassembly_delight:full_uncraft",
+  "input": {
+    "item": "create:electron_tube"
+  },
+  "consume": 1,
+  "results": [
+    {
+      "id": "create:iron_sheet",
+      "count": 1
+    },
+    {
+      "id": "create:polished_rose_quartz",
+      "count": 1
+    }
+  ]
+}

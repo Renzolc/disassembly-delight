@@ -1,0 +1,23 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "create"
+    }
+  ],
+  "type": "disassembly_delight:full_uncraft",
+  "input": {
+    "item": "create:stock_link"
+  },
+  "consume": 1,
+  "results": [
+    {
+      "id": "create:item_vault",
+      "count": 1
+    },
+    {
+      "id": "create:transmitter",
+      "count": 1
+    }
+  ]
+}

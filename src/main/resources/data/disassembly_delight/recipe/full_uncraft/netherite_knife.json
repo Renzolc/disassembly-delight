@@ -1,0 +1,21 @@
+{
+  "type": "disassembly_delight:full_uncraft",
+  "input": {
+    "item": "farmersdelight:netherite_knife"
+  },
+  "consume": 1,
+  "results": [
+    {
+      "id": "farmersdelight:diamond_knife",
+      "count": 1
+    },
+    {
+      "id": "minecraft:netherite_ingot",
+      "count": 1
+    },
+    {
+      "id": "minecraft:netherite_upgrade_smithing_template",
+      "count": 1
+    }
+  ]
+}

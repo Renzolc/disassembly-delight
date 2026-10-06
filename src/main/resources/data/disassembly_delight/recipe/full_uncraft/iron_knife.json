@@ -1,0 +1,17 @@
+{
+  "type": "disassembly_delight:full_uncraft",
+  "input": {
+    "item": "farmersdelight:iron_knife"
+  },
+  "consume": 1,
+  "results": [
+    {
+      "id": "minecraft:iron_ingot",
+      "count": 1
+    },
+    {
+      "id": "minecraft:stick",
+      "count": 1
+    }
+  ]
+}

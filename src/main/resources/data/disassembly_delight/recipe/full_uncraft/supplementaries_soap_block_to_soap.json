@@ -1,0 +1,19 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "supplementaries"
+    }
+  ],
+  "type": "disassembly_delight:full_uncraft",
+  "input": {
+    "item": "supplementaries:soap_block"
+  },
+  "consume": 1,
+  "results": [
+    {
+      "id": "supplementaries:soap",
+      "count": 9
+    }
+  ]
+}

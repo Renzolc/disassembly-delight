@@ -1,0 +1,27 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "supplementaries"
+    }
+  ],
+  "type": "disassembly_delight:full_uncraft",
+  "input": {
+    "item": "supplementaries:candy"
+  },
+  "consume": 8,
+  "results": [
+    {
+      "id": "minecraft:honey_bottle",
+      "count": 1
+    },
+    {
+      "id": "minecraft:paper",
+      "count": 1
+    },
+    {
+      "id": "minecraft:sugar",
+      "count": 8
+    }
+  ]
+}

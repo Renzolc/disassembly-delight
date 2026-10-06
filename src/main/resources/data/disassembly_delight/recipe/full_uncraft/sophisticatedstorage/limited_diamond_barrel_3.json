@@ -1,0 +1,23 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "sophisticatedstorage"
+    }
+  ],
+  "type": "disassembly_delight:full_uncraft",
+  "input": {
+    "item": "sophisticatedstorage:limited_diamond_barrel_3"
+  },
+  "consume": 1,
+  "results": [
+    {
+      "id": "minecraft:diamond",
+      "count": 8
+    },
+    {
+      "id": "sophisticatedstorage:limited_gold_barrel_3",
+      "count": 1
+    }
+  ]
+}

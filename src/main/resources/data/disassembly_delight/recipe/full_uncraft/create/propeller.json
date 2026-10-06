@@ -1,0 +1,23 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "create"
+    }
+  ],
+  "type": "disassembly_delight:full_uncraft",
+  "input": {
+    "item": "create:propeller"
+  },
+  "consume": 1,
+  "results": [
+    {
+      "id": "create:andesite_alloy",
+      "count": 1
+    },
+    {
+      "id": "create:iron_sheet",
+      "count": 4
+    }
+  ]
+}

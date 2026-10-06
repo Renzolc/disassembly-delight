@@ -1,0 +1,23 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "create"
+    }
+  ],
+  "type": "disassembly_delight:full_uncraft",
+  "input": {
+    "item": "create:mechanical_pump"
+  },
+  "consume": 1,
+  "results": [
+    {
+      "id": "create:cogwheel",
+      "count": 1
+    },
+    {
+      "id": "create:fluid_pipe",
+      "count": 1
+    }
+  ]
+}

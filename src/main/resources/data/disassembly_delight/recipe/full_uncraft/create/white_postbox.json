@@ -1,0 +1,27 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "create"
+    }
+  ],
+  "type": "disassembly_delight:full_uncraft",
+  "input": {
+    "item": "create:white_postbox"
+  },
+  "consume": 1,
+  "results": [
+    {
+      "id": "create:andesite_alloy",
+      "count": 1
+    },
+    {
+      "id": "minecraft:barrel",
+      "count": 1
+    },
+    {
+      "id": "minecraft:white_dye",
+      "count": 1
+    }
+  ]
+}

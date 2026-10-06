@@ -1,0 +1,19 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "supplementaries"
+    }
+  ],
+  "type": "disassembly_delight:full_uncraft",
+  "input": {
+    "item": "supplementaries:sugar_cube"
+  },
+  "consume": 1,
+  "results": [
+    {
+      "id": "minecraft:sugar",
+      "count": 9
+    }
+  ]
+}

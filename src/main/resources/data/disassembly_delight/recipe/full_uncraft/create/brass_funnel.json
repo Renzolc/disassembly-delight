@@ -1,0 +1,27 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "create"
+    }
+  ],
+  "type": "disassembly_delight:full_uncraft",
+  "input": {
+    "item": "create:brass_funnel"
+  },
+  "consume": 2,
+  "results": [
+    {
+      "id": "create:brass_ingot",
+      "count": 2
+    },
+    {
+      "id": "create:electron_tube",
+      "count": 2
+    },
+    {
+      "id": "minecraft:dried_kelp",
+      "count": 1
+    }
+  ]
+}

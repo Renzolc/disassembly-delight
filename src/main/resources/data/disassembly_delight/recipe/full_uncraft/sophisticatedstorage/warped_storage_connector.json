@@ -1,0 +1,23 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "sophisticatedstorage"
+    }
+  ],
+  "type": "disassembly_delight:full_uncraft",
+  "input": {
+    "item": "sophisticatedstorage:warped_storage_connector"
+  },
+  "consume": 4,
+  "results": [
+    {
+      "id": "minecraft:stick",
+      "count": 5
+    },
+    {
+      "id": "minecraft:warped_planks",
+      "count": 4
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "quark"
+    }
+  ],
+  "type": "disassembly_delight:full_uncraft",
+  "input": {
+    "item": "quark:rope"
+  },
+  "consume": 3,
+  "results": [
+    {
+      "id": "minecraft:string",
+      "count": 6
+    }
+  ]
+}

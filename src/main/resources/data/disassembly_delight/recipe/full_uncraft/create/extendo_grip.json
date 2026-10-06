@@ -1,0 +1,31 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "create"
+    }
+  ],
+  "type": "disassembly_delight:full_uncraft",
+  "input": {
+    "item": "create:extendo_grip"
+  },
+  "consume": 1,
+  "results": [
+    {
+      "id": "create:brass_hand",
+      "count": 1
+    },
+    {
+      "id": "create:brass_ingot",
+      "count": 1
+    },
+    {
+      "id": "create:precision_mechanism",
+      "count": 1
+    },
+    {
+      "id": "minecraft:stick",
+      "count": 6
+    }
+  ]
+}

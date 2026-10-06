@@ -1,0 +1,23 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "supplementaries"
+    }
+  ],
+  "type": "disassembly_delight:full_uncraft",
+  "input": {
+    "item": "supplementaries:awning"
+  },
+  "consume": 2,
+  "results": [
+    {
+      "id": "minecraft:stick",
+      "count": 2
+    },
+    {
+      "id": "supplementaries:flax",
+      "count": 3
+    }
+  ]
+}

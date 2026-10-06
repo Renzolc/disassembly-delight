@@ -1,0 +1,27 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "sophisticatedstorage"
+    }
+  ],
+  "type": "disassembly_delight:full_uncraft",
+  "input": {
+    "item": "sophisticatedstorage:advanced_filter_upgrade"
+  },
+  "consume": 1,
+  "results": [
+    {
+      "id": "minecraft:gold_ingot",
+      "count": 2
+    },
+    {
+      "id": "minecraft:redstone",
+      "count": 3
+    },
+    {
+      "id": "sophisticatedstorage:filter_upgrade",
+      "count": 1
+    }
+  ]
+}

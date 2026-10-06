@@ -1,0 +1,27 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "sophisticatedstorage"
+    }
+  ],
+  "type": "disassembly_delight:full_uncraft",
+  "input": {
+    "item": "sophisticatedstorage:shulker_box"
+  },
+  "consume": 1,
+  "results": [
+    {
+      "id": "minecraft:chest",
+      "count": 1
+    },
+    {
+      "id": "minecraft:lever",
+      "count": 1
+    },
+    {
+      "id": "minecraft:shulker_shell",
+      "count": 2
+    }
+  ]
+}

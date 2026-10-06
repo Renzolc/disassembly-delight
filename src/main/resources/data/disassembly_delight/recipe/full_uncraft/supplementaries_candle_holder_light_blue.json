@@ -1,0 +1,23 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "supplementaries"
+    }
+  ],
+  "type": "disassembly_delight:full_uncraft",
+  "input": {
+    "item": "supplementaries:candle_holder_light_blue"
+  },
+  "consume": 1,
+  "results": [
+    {
+      "id": "minecraft:iron_ingot",
+      "count": 1
+    },
+    {
+      "id": "minecraft:light_blue_candle",
+      "count": 1
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "sophisticatedstorage"
+    }
+  ],
+  "type": "disassembly_delight:full_uncraft",
+  "input": {
+    "item": "sophisticatedstorage:dark_oak_storage_connector"
+  },
+  "consume": 4,
+  "results": [
+    {
+      "id": "minecraft:dark_oak_planks",
+      "count": 4
+    },
+    {
+      "id": "minecraft:stick",
+      "count": 5
+    }
+  ]
+}

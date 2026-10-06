@@ -1,0 +1,27 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "sophisticatedstorage"
+    }
+  ],
+  "type": "disassembly_delight:full_uncraft",
+  "input": {
+    "item": "sophisticatedstorage:gold_chest"
+  },
+  "consume": 1,
+  "results": [
+    {
+      "id": "minecraft:gold_block",
+      "count": 1
+    },
+    {
+      "id": "minecraft:gold_ingot",
+      "count": 7
+    },
+    {
+      "id": "sophisticatedstorage:iron_chest",
+      "count": 1
+    }
+  ]
+}

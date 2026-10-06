@@ -1,0 +1,43 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "sophisticatedbackpacks"
+    }
+  ],
+  "type": "disassembly_delight:full_uncraft",
+  "input": {
+    "item": "sophisticatedbackpacks:tool_swapper_upgrade"
+  },
+  "consume": 1,
+  "results": [
+    {
+      "id": "minecraft:iron_ingot",
+      "count": 2
+    },
+    {
+      "id": "minecraft:redstone",
+      "count": 2
+    },
+    {
+      "id": "minecraft:wooden_axe",
+      "count": 1
+    },
+    {
+      "id": "minecraft:wooden_pickaxe",
+      "count": 1
+    },
+    {
+      "id": "minecraft:wooden_shovel",
+      "count": 1
+    },
+    {
+      "id": "minecraft:wooden_sword",
+      "count": 1
+    },
+    {
+      "id": "sophisticatedbackpacks:upgrade_base",
+      "count": 1
+    }
+  ]
+}

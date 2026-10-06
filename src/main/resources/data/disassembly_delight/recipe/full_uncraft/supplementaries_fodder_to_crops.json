@@ -1,0 +1,23 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "supplementaries"
+    }
+  ],
+  "type": "disassembly_delight:full_uncraft",
+  "input": {
+    "item": "supplementaries:fodder"
+  },
+  "consume": 2,
+  "results": [
+    {
+      "id": "minecraft:hay_block",
+      "count": 1
+    },
+    {
+      "id": "supplementaries:flax_block",
+      "count": 1
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "create"
+    }
+  ],
+  "type": "disassembly_delight:full_uncraft",
+  "input": {
+    "item": "create:clutch"
+  },
+  "consume": 1,
+  "results": [
+    {
+      "id": "create:andesite_casing",
+      "count": 1
+    },
+    {
+      "id": "create:shaft",
+      "count": 1
+    },
+    {
+      "id": "minecraft:redstone",
+      "count": 1
+    }
+  ]
+}

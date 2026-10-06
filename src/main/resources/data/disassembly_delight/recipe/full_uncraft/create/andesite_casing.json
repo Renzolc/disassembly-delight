@@ -1,0 +1,23 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "create"
+    }
+  ],
+  "type": "disassembly_delight:full_uncraft",
+  "input": {
+    "item": "create:andesite_casing"
+  },
+  "consume": 1,
+  "results": [
+    {
+      "id": "create:andesite_alloy",
+      "count": 1
+    },
+    {
+      "id": "minecraft:stripped_oak_log",
+      "count": 1
+    }
+  ]
+}

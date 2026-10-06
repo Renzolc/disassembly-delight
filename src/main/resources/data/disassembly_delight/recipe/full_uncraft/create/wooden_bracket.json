@@ -1,0 +1,27 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "create"
+    }
+  ],
+  "type": "disassembly_delight:full_uncraft",
+  "input": {
+    "item": "create:wooden_bracket"
+  },
+  "consume": 4,
+  "results": [
+    {
+      "id": "create:andesite_alloy",
+      "count": 4
+    },
+    {
+      "id": "minecraft:oak_planks",
+      "count": 2
+    },
+    {
+      "id": "minecraft:stick",
+      "count": 3
+    }
+  ]
+}

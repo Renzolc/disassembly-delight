@@ -1,0 +1,13 @@
+{
+  "type": "disassembly_delight:full_uncraft",
+  "input": {
+    "item": "farmersdelight:rope"
+  },
+  "consume": 4,
+  "results": [
+    {
+      "id": "farmersdelight:straw",
+      "count": 4
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "sophisticatedbackpacks"
+    }
+  ],
+  "type": "disassembly_delight:full_uncraft",
+  "input": {
+    "item": "sophisticatedbackpacks:filter_upgrade"
+  },
+  "consume": 1,
+  "results": [
+    {
+      "id": "minecraft:redstone",
+      "count": 4
+    },
+    {
+      "id": "minecraft:string",
+      "count": 4
+    },
+    {
+      "id": "sophisticatedbackpacks:upgrade_base",
+      "count": 1
+    }
+  ]
+}
