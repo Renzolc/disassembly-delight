@@ -1,7 +1,8 @@
 {
   "variants": {
-    "": {
-      "model": "disassembly_delight:block/disassembler"
-    }
+    "facing=north": { "model": "disassembly_delight:block/disassembler" },
+    "facing=east": { "model": "disassembly_delight:block/disassembler", "y": 90 },
+    "facing=south": { "model": "disassembly_delight:block/disassembler", "y": 180 },
+    "facing=west": { "model": "disassembly_delight:block/disassembler", "y": 270 }
   }
 }

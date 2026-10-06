@@ -5,7 +5,6 @@ import dev.renzo.disassemblydelight.block.DisassemblerBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.MapColor;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -18,13 +17,16 @@ public final class ModBlocks {
 
     private ModBlocks() {}
 
-    /** Like a crafting table: breakable by hand; axe preferred via #minecraft:mineable/axe. */
+    /**
+     * Copper machine. Breakable by hand and always drops itself (no tool required);
+     * pickaxe or axe mine it faster via #minecraft:mineable/pickaxe and #minecraft:mineable/axe.
+     * noOcclusion: the model has a recessed window, a hollow hopper and a cog sticking out.
+     */
     private static BlockBehaviour.Properties disassemblerProps() {
         return BlockBehaviour.Properties.of()
-                .mapColor(MapColor.WOOD)
-                .instrument(NoteBlockInstrument.BASS)
+                .mapColor(MapColor.COLOR_ORANGE)
                 .strength(2.5F)
-                .sound(SoundType.WOOD)
-                .ignitedByLava();
+                .sound(SoundType.COPPER)
+                .noOcclusion();
     }
 }

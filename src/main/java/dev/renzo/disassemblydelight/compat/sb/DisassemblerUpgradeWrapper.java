@@ -6,10 +6,13 @@ import java.util.function.Consumer;
 
 import javax.annotation.Nullable;
 
+import dev.renzo.disassemblydelight.ModBlocks;
+import dev.renzo.disassemblydelight.contents.BackpackBreakdown;
 import dev.renzo.disassemblydelight.contents.ContainerDisassembly;
 import dev.renzo.disassemblydelight.recipe.CraftUncraft;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.Containers;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -46,7 +49,9 @@ public class DisassemblerUpgradeWrapper extends UpgradeWrapperBase<DisassemblerU
             public boolean isItemValid(int slot, ItemStack stack) {
                 // Sophisticated Core syncs every slot with setStackInSlot, including air to clear it.
                 // setStackInSlot throws if isItemValid is false, so empty stacks must be accepted.
-                return stack.isEmpty() || super.isItemValid(slot, stack);
+                // Backpacks cannot normally sit inside an item, but the input slot only holds one until the next
+                // tick breaks it down a tier (its contents live in saved data, not on the stack).
+                return stack.isEmpty() || super.isItemValid(slot, stack) || StoredContents.isBackpack(stack);
             }
         };
     }
@@ -69,13 +74,13 @@ public class DisassemblerUpgradeWrapper extends UpgradeWrapperBase<DisassemblerU
         setCooldown(level, worked ? 5 : 10);
     }
 
-    public boolean process(Level level, BlockPos ignoredPos) {
+    public boolean process(Level level, @Nullable BlockPos pos) {
         if (processing || level == null || level.isClientSide || !isEnabled()) {
             return false;
         }
         processing = true;
         try {
-            return depositIntoBackpack(level);
+            return depositIntoBackpack(level, pos);
         } catch (RuntimeException e) {
             // Runs inside the menu's broadcastChanges on the server tick; never let it take the world down.
             ItemStack input = inventory.getStackInSlot(INPUT_SLOT);
@@ -87,7 +92,7 @@ public class DisassemblerUpgradeWrapper extends UpgradeWrapperBase<DisassemblerU
         }
     }
 
-    private boolean depositIntoBackpack(Level level) {
+    private boolean depositIntoBackpack(Level level, @Nullable BlockPos pos) {
         ItemStack input = inventory.getStackInSlot(INPUT_SLOT);
         if (input.isEmpty()) {
             return false;
@@ -106,9 +111,36 @@ public class DisassemblerUpgradeWrapper extends UpgradeWrapperBase<DisassemblerU
         if (backpack == null || !insertAll(backpack, op.results())) {
             return false;
         }
-        op.clearContents().run();
+        // Clears the disassembled container's storage and fills a lower-tier backpack. Anything it hands back
+        // (normally nothing) goes into the backpack, and only what still does not fit is dropped. Never deleted.
+        List<ItemStack> leftovers = op.commit().get();
         inventory.extractItem(INPUT_SLOT, op.consume(), false);
+        storeOrDrop(level, pos, backpack, leftovers);
         return true;
+    }
+
+    private void storeOrDrop(Level level, @Nullable BlockPos pos, IItemHandler backpack, @Nullable List<ItemStack> leftovers) {
+        if (leftovers == null) {
+            return;
+        }
+        for (ItemStack stack : leftovers) {
+            if (stack == null || stack.isEmpty()) {
+                continue;
+            }
+            ItemStack rest = InventoryHelper.insertIntoInventory(stack.copy(), backpack, false);
+            if (rest == null || rest.isEmpty()) {
+                continue;
+            }
+            if (pos != null) {
+                Containers.dropItemStack(level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, rest);
+            } else {
+                // No position to drop at: park it in the (now empty) input slot so it is not lost.
+                ItemStack parked = inventory.insertItem(INPUT_SLOT, rest, false);
+                if (!parked.isEmpty()) {
+                    dev.renzo.disassemblydelight.DisassemblyDelight.LOGGER.error("Disassembly Table Upgrade could not place {}", parked);
+                }
+            }
+        }
     }
 
     /**
@@ -181,12 +213,25 @@ public class DisassemblerUpgradeWrapper extends UpgradeWrapperBase<DisassemblerU
         if (input.isEmpty() || level == null) {
             return Optional.empty();
         }
+        // The Disassembly Table itself never comes apart: it moves into the backpack unchanged.
+        if (input.is(ModBlocks.DISASSEMBLER.asItem())) {
+            return Optional.empty();
+        }
+        if (BackpackBreakdown.isBackpack(input)) {
+            return BackpackBreakdown.plan(level, input)
+                    .map(plan -> new Resolved(plan.consume(), plan.outputs(), plan.commit()));
+        }
         ContainerDisassembly.Base base = CraftUncraft.resolve(level, input)
                 .map(crafted -> new ContainerDisassembly.Base(crafted.consume(), crafted.results()))
                 .orElse(null);
         return ContainerDisassembly.plan(level, input, base)
-                .map(plan -> new Resolved(plan.consume(), plan.outputs(), plan.afterCommit()));
+                .map(plan -> new Resolved(plan.consume(), plan.outputs(), plan.commit()));
     }
 
-    private record Resolved(int consume, List<ItemStack> results, Runnable clearContents) {}
+    /** Exposed for tests: what the upgrade would put into the backpack for this input (empty = moved unchanged). */
+    public static Optional<List<ItemStack>> previewFor(Level level, ItemStack input) {
+        return resolveStack(level, input).map(Resolved::results);
+    }
+
+    private record Resolved(int consume, List<ItemStack> results, java.util.function.Supplier<List<ItemStack>> commit) {}
 }

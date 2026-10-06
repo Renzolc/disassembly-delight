@@ -1,0 +1,31 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "sophisticated_emerald_upgrade"
+    },
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "sophisticatedbackpacks"
+    }
+  ],
+  "type": "disassembly_delight:full_uncraft",
+  "input": {
+    "item": "sophisticated_emerald_upgrade:emerald_backpack"
+  },
+  "consume": 1,
+  "results": [
+    {
+      "id": "sophisticatedbackpacks:netherite_backpack",
+      "count": 1
+    },
+    {
+      "id": "minecraft:emerald_block",
+      "count": 1
+    },
+    {
+      "id": "sophisticated_emerald_upgrade:emerald_upgrade_template",
+      "count": 1
+    }
+  ]
+}

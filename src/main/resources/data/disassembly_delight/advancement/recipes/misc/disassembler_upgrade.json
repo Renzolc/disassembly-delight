@@ -13,16 +13,6 @@
         "recipe": "disassembly_delight:disassembler_upgrade"
       }
     },
-    "has_minecraft_leather": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "items": "minecraft:leather"
-          }
-        ]
-      }
-    },
     "has_disassembler": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
@@ -32,12 +22,22 @@
           }
         ]
       }
+    },
+    "has_upgrade_base": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "sophisticatedbackpacks:upgrade_base"
+          }
+        ]
+      }
     }
   },
   "requirements": [
     [
       "has_the_recipe",
-      "has_minecraft_leather",
+      "has_upgrade_base",
       "has_disassembler"
     ]
   ],

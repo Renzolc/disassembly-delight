@@ -12,6 +12,7 @@ import javax.annotation.Nullable;
 import dev.renzo.disassemblydelight.ModBlockEntities;
 import dev.renzo.disassemblydelight.ModBlocks;
 import dev.renzo.disassemblydelight.menu.DisassemblerMenu;
+import dev.renzo.disassemblydelight.contents.BackpackBreakdown;
 import dev.renzo.disassemblydelight.contents.ContainerContents;
 import dev.renzo.disassemblydelight.contents.ContainerDisassembly;
 import dev.renzo.disassemblydelight.recipe.CraftUncraft;
@@ -22,6 +23,8 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
@@ -105,6 +108,13 @@ public class DisassemblerBlockEntity extends BlockEntity implements MenuProvider
         }
     };
 
+    /**
+     * Results of a backpack breakdown that did not fit the nine output slots (a full backpack's contents). They move
+     * into the outputs as room frees up, are saved with the block, and drop with it when it is broken. While anything
+     * is pending, no new input is processed.
+     */
+    private final List<ItemStack> pending = new ArrayList<>();
+
     private int progress;
     private int shortStackCount = -1;
     private int shortStackCycles;
@@ -135,7 +145,19 @@ public class DisassemblerBlockEntity extends BlockEntity implements MenuProvider
                 list.add(stack.copy());
             }
         }
+        for (ItemStack stack : pending) {
+            if (!stack.isEmpty()) {
+                list.add(stack.copy());
+            }
+        }
         return list;
+    }
+
+    /** Items waiting for room in the outputs (copies). */
+    public List<ItemStack> getPending() {
+        List<ItemStack> copy = new ArrayList<>(pending.size());
+        pending.forEach(stack -> copy.add(stack.copy()));
+        return copy;
     }
 
     public int getRedstoneSignal() {
@@ -153,6 +175,9 @@ public class DisassemblerBlockEntity extends BlockEntity implements MenuProvider
     }
 
     public static void serverTick(Level level, BlockPos pos, BlockState state, DisassemblerBlockEntity be) {
+        if (!be.pending.isEmpty()) {
+            be.drainPending();
+        }
         be.progress++;
         if (be.progress < PROCESS_INTERVAL) {
             return;
@@ -164,6 +189,9 @@ public class DisassemblerBlockEntity extends BlockEntity implements MenuProvider
     private void tryDisassemble() {
         if (level == null || level.isClientSide) {
             return;
+        }
+        if (!pending.isEmpty()) {
+            return; // finish handing out the last backpack first
         }
         ItemStack input = items.getStackInSlot(INPUT_SLOT);
         if (input.isEmpty()) {
@@ -187,6 +215,16 @@ public class DisassemblerBlockEntity extends BlockEntity implements MenuProvider
     private void disassembleOrPassThrough(ItemStack input) {
         // Never disassemble the Disassembler itself; it passes through like any other non-disassemblable item.
         boolean isDisassembler = input.is(ModBlocks.DISASSEMBLER.asItem());
+        if (!isDisassembler && BackpackBreakdown.isBackpack(input)) {
+            // Backpack chain: lower tier keeps the contents, or the regular backpack hands everything back.
+            Optional<ContainerDisassembly.Plan> backpack = BackpackBreakdown.plan(level, input);
+            if (backpack.isEmpty()) {
+                passThrough(input);
+            } else {
+                commitWithOverflow(input, backpack.get());
+            }
+            return;
+        }
         Optional<ResolvedDisassemble> resolved = isDisassembler || ContainerContents.isForcedPassThrough(input)
                 ? Optional.empty()
                 : resolveDisassemble(input);
@@ -226,8 +264,57 @@ public class DisassemblerBlockEntity extends BlockEntity implements MenuProvider
         }
         input.shrink(consume);
         items.setStackInSlot(INPUT_SLOT, input.isEmpty() ? ItemStack.EMPTY : input);
-        op.afterCommit().run();
+        pending.addAll(op.runCommit());
+        drainPending();
         setChanged();
+    }
+
+    /**
+     * Backpack breakdowns always go ahead: what fits goes into the outputs, the rest waits in {@link #pending}.
+     * Nothing is deleted, even when a full netherite backpack meets nine busy output slots.
+     */
+    private void commitWithOverflow(ItemStack input, ContainerDisassembly.Plan op) {
+        resetShortStackWait();
+        int consume = op.consume();
+        if (consume <= 0 || input.getCount() < consume) {
+            return;
+        }
+        List<ItemStack> outputs = new ArrayList<>(op.outputs());
+        // The commit reads the backpack in the input slot, so it runs before the input is used up.
+        outputs.addAll(op.runCommit());
+        input.shrink(consume);
+        items.setStackInSlot(INPUT_SLOT, input.isEmpty() ? ItemStack.EMPTY : input);
+        RangedWrapper view = outputInsertView();
+        for (ItemStack out : outputs) {
+            if (out == null || out.isEmpty()) {
+                continue;
+            }
+            ItemStack remainder = ItemHandlerHelper.insertItemStacked(view, out.copy(), false);
+            if (!remainder.isEmpty()) {
+                pending.add(remainder);
+            }
+        }
+        setChanged();
+    }
+
+    private void drainPending() {
+        if (pending.isEmpty()) {
+            return;
+        }
+        RangedWrapper view = outputInsertView();
+        boolean changed = false;
+        for (int i = 0; i < pending.size(); i++) {
+            ItemStack stack = pending.get(i);
+            ItemStack remainder = stack.isEmpty() ? ItemStack.EMPTY : ItemHandlerHelper.insertItemStacked(view, stack.copy(), false);
+            if (remainder.getCount() != stack.getCount()) {
+                changed = true;
+            }
+            pending.set(i, remainder);
+        }
+        pending.removeIf(ItemStack::isEmpty);
+        if (changed) {
+            setChanged();
+        }
     }
 
     /**
@@ -336,9 +423,9 @@ public class DisassemblerBlockEntity extends BlockEntity implements MenuProvider
             return Optional.empty();
         }
 
-        // Disassembler Upgrade full-returns only through the backpack upgrade, never this block.
+        // The Disassembly Table Upgrade comes apart into its recipe (table, 2 hoppers, upgrade base, 3 redstone).
         if (isDisassemblerUpgrade(input)) {
-            return Optional.empty();
+            return CraftUncraft.resolve(level, input).map(r -> new ResolvedDisassemble(r.results(), Math.max(1, r.consume())));
         }
 
         return findBestRecipe(input).map(holder -> {
@@ -596,6 +683,15 @@ public class DisassemblerBlockEntity extends BlockEntity implements MenuProvider
         super.saveAdditional(tag, registries);
         tag.put("Items", items.serializeNBT(registries));
         tag.putInt("Progress", progress);
+        if (!pending.isEmpty()) {
+            ListTag list = new ListTag();
+            for (ItemStack stack : pending) {
+                if (!stack.isEmpty()) {
+                    list.add(stack.save(registries));
+                }
+            }
+            tag.put("Pending", list);
+        }
     }
 
     @Override
@@ -605,6 +701,11 @@ public class DisassemblerBlockEntity extends BlockEntity implements MenuProvider
             items.deserializeNBT(registries, tag.getCompound("Items"));
         }
         progress = tag.getInt("Progress");
+        pending.clear();
+        ListTag list = tag.getList("Pending", Tag.TAG_COMPOUND);
+        for (int i = 0; i < list.size(); i++) {
+            ItemStack.parse(registries, list.getCompound(i)).ifPresent(pending::add);
+        }
     }
 
     @Override

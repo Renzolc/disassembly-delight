@@ -3,6 +3,7 @@ package dev.renzo.disassemblydelight.contents;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Supplier;
 
 import javax.annotation.Nullable;
 
@@ -32,10 +33,30 @@ public final class ContainerDisassembly {
     }
 
     /**
-     * What to insert and how many input items to use up. {@code afterCommit} must run once the outputs are in
-     * (it clears Sophisticated saved-data inventories).
+     * What to insert and how many input items to use up. {@code commit} must run exactly once, when the input is used
+     * up (it clears Sophisticated saved-data inventories and fills the lower-tier backpack of a backpack breakdown).
+     * It returns items that still need a home (normally none); the caller must store or drop them, never delete them.
+     *
+     * <p>{@code overflowAllowed} plans (backpacks) may hand back more items than the outputs can hold: the
+     * Disassembly Table keeps the rest in its pending buffer instead of refusing the backpack.
      */
-    public record Plan(int consume, List<ItemStack> outputs, Runnable afterCommit) {
+    public record Plan(int consume, List<ItemStack> outputs, Supplier<List<ItemStack>> commit, boolean overflowAllowed) {
+        public Plan(int consume, List<ItemStack> outputs, Runnable afterCommit) {
+            this(consume, outputs, () -> {
+                afterCommit.run();
+                return List.of();
+            }, false);
+        }
+
+        /** Runs the commit hook. Returns leftovers that must still be stored or dropped (never null). */
+        public List<ItemStack> runCommit() {
+            List<ItemStack> leftovers = commit.get();
+            return leftovers == null ? List.of() : leftovers;
+        }
+
+        public Plan withOverflowAllowed() {
+            return new Plan(consume, outputs, commit, true);
+        }
     }
 
     public static Optional<Plan> plan(Level level, ItemStack input, @Nullable Base base) {

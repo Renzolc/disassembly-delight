@@ -8,17 +8,23 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "L": {
-      "item": "minecraft:leather"
-    },
-    "D": {
+    "T": {
       "item": "disassembly_delight:disassembler"
+    },
+    "H": {
+      "item": "minecraft:hopper"
+    },
+    "U": {
+      "item": "sophisticatedbackpacks:upgrade_base"
+    },
+    "R": {
+      "item": "minecraft:redstone"
     }
   },
   "pattern": [
-    " L ",
-    "LDL",
-    " L "
+    " T ",
+    "HUH",
+    "RRR"
   ],
   "show_notification": true,
   "result": {

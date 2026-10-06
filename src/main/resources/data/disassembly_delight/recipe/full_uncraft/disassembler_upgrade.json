@@ -12,12 +12,20 @@
   "consume": 1,
   "results": [
     {
-      "id": "minecraft:leather",
-      "count": 4
-    },
-    {
       "id": "disassembly_delight:disassembler",
       "count": 1
+    },
+    {
+      "id": "minecraft:hopper",
+      "count": 2
+    },
+    {
+      "id": "sophisticatedbackpacks:upgrade_base",
+      "count": 1
+    },
+    {
+      "id": "minecraft:redstone",
+      "count": 3
     }
   ]
 }

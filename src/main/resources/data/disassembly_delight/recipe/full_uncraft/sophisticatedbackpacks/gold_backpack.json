@@ -12,12 +12,12 @@
   "consume": 1,
   "results": [
     {
-      "id": "minecraft:gold_ingot",
-      "count": 8
-    },
-    {
       "id": "sophisticatedbackpacks:iron_backpack",
       "count": 1
+    },
+    {
+      "id": "minecraft:gold_ingot",
+      "count": 8
     }
   ]
 }

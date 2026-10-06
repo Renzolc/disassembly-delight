@@ -12,15 +12,11 @@
   "consume": 1,
   "results": [
     {
-      "id": "minecraft:netherite_ingot",
-      "count": 1
-    },
-    {
-      "id": "minecraft:netherite_upgrade_smithing_template",
-      "count": 1
-    },
-    {
       "id": "sophisticatedbackpacks:diamond_backpack",
+      "count": 1
+    },
+    {
+      "id": "minecraft:netherite_ingot",
       "count": 1
     }
   ]
