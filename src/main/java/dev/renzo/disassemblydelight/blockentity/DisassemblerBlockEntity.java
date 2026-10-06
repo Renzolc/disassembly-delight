@@ -2,9 +2,7 @@ package dev.renzo.disassemblydelight.blockentity;
 
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 import javax.annotation.Nullable;
@@ -16,6 +14,7 @@ import dev.renzo.disassemblydelight.contents.BackpackBreakdown;
 import dev.renzo.disassemblydelight.contents.ContainerContents;
 import dev.renzo.disassemblydelight.contents.ContainerDisassembly;
 import dev.renzo.disassemblydelight.recipe.CraftUncraft;
+import dev.renzo.disassemblydelight.recipe.TableRules;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -27,14 +26,11 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.ItemTags;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.CraftingRecipe;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeHolder;
@@ -46,9 +42,6 @@ import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.ItemHandlerHelper;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import net.neoforged.neoforge.items.wrapper.RangedWrapper;
-
-import vectorwing.farmersdelight.common.crafting.CuttingBoardRecipe;
-import vectorwing.farmersdelight.common.registry.ModRecipeTypes;
 
 /**
  * Hopper-fed auto cutting board (+ wood breakdown + bed uncraft + reverse-craft fallback).
@@ -65,15 +58,6 @@ public class DisassemblerBlockEntity extends BlockEntity implements MenuProvider
      * passing the short stack through unchanged. Hoppers add items every cycle while they are feeding.
      */
     public static final int SHORT_STACK_WAIT_CYCLES = 5;
-
-    /** Vanilla plank → matching wooden slab (1 plank → 2 slabs). */
-    private static final Map<Item, Item> PLANK_TO_SLAB = createPlankToSlabMap();
-
-    /** Bed → matching wool color (1 bed → 3 wool + 3 oak planks). */
-    private static final Map<Item, Item> BED_TO_WOOL = createBedToWoolMap();
-
-    /** Vanilla mob head → matching spawn egg (1 head → 1 egg). */
-    private static final Map<Item, Item> MOB_HEAD_TO_SPAWN_EGG = createMobHeadToSpawnEggMap();
 
     private final ItemStackHandler items = new ItemStackHandler(TOTAL_SLOTS) {
         @Override
@@ -397,24 +381,10 @@ public class DisassemblerBlockEntity extends BlockEntity implements MenuProvider
      * 6) reverse crafting fallback (skips damaged tools/armor)
      */
     private Optional<ResolvedDisassemble> resolveDisassemble(ItemStack input) {
-        Optional<List<ItemStack>> wood = resolveWoodChain(input);
-        if (wood.isPresent()) {
-            return Optional.of(new ResolvedDisassemble(wood.get(), 1));
-        }
-
-        Optional<List<ItemStack>> bed = resolveBed(input);
-        if (bed.isPresent()) {
-            return Optional.of(new ResolvedDisassemble(bed.get(), 1));
-        }
-
-        Optional<List<ItemStack>> mobHead = resolveMobHead(input);
-        if (mobHead.isPresent()) {
-            return Optional.of(new ResolvedDisassemble(mobHead.get(), 1));
-        }
-
-        Optional<List<ItemStack>> cutting = resolveCutting(input);
-        if (cutting.isPresent()) {
-            return Optional.of(new ResolvedDisassemble(cutting.get(), 1));
+        // Steps 1-5 are shared with the Disassembly Table Upgrade (TableRules).
+        Optional<List<ItemStack>> rules = TableRules.resolve(level, input);
+        if (rules.isPresent()) {
+            return Optional.of(new ResolvedDisassemble(rules.get(), 1));
         }
 
         // Reverse-craft only: skip damaged tools/armor (would invent full ingredients unfairly).
@@ -433,107 +403,6 @@ public class DisassemblerBlockEntity extends BlockEntity implements MenuProvider
             int consume = holder.value().getResultItem(level.registryAccess()).getCount();
             return new ResolvedDisassemble(outs, Math.max(1, consume));
         });
-    }
-
-    /** Planks → 2 matching slabs; wooden slabs → 1 stick. Not planks→sticks in one step. */
-    private Optional<List<ItemStack>> resolveWoodChain(ItemStack input) {
-        if (input.is(ItemTags.PLANKS)) {
-            Item slab = PLANK_TO_SLAB.get(input.getItem());
-            if (slab == null) {
-                slab = lookupSlabForPlank(input.getItem());
-            }
-            if (slab != null && slab != Items.AIR) {
-                return Optional.of(List.of(new ItemStack(slab, 2)));
-            }
-            return Optional.empty();
-        }
-        if (input.is(ItemTags.WOODEN_SLABS)) {
-            return Optional.of(List.of(new ItemStack(Items.STICK, 1)));
-        }
-        return Optional.empty();
-    }
-
-    private Optional<List<ItemStack>> resolveBed(ItemStack input) {
-        Item wool = BED_TO_WOOL.get(input.getItem());
-        if (wool == null) {
-            return Optional.empty();
-        }
-        // Explicit special-case matching vanilla bed recipe (3 wool + 3 oak planks).
-        return Optional.of(List.of(
-                new ItemStack(wool, 3),
-                new ItemStack(Items.OAK_PLANKS, 3)
-        ));
-    }
-
-    /** Mob heads → matching spawn eggs, with a same-namespace fallback for modded heads. */
-    private Optional<List<ItemStack>> resolveMobHead(ItemStack input) {
-        Item spawnEgg = MOB_HEAD_TO_SPAWN_EGG.get(input.getItem());
-        if (spawnEgg != null && spawnEgg != Items.AIR) {
-            return Optional.of(List.of(new ItemStack(spawnEgg, 1)));
-        }
-
-        ResourceLocation id = BuiltInRegistries.ITEM.getKey(input.getItem());
-        if (id == null || id.getPath().equals("player_head")) {
-            return Optional.empty();
-        }
-        String path = id.getPath();
-        String suffix;
-        if (path.endsWith("_head")) {
-            suffix = "_head";
-        } else if (path.endsWith("_skull")) {
-            suffix = "_skull";
-        } else {
-            return Optional.empty();
-        }
-        String base = path.substring(0, path.length() - suffix.length());
-        if (base.isEmpty()) {
-            return Optional.empty();
-        }
-        ResourceLocation spawnEggId = ResourceLocation.fromNamespaceAndPath(
-                id.getNamespace(), base + "_spawn_egg"
-        );
-        spawnEgg = BuiltInRegistries.ITEM.get(spawnEggId);
-        if (spawnEgg == Items.AIR) {
-            return Optional.empty();
-        }
-        return Optional.of(List.of(new ItemStack(spawnEgg, 1)));
-    }
-
-    /**
-     * Match any farmersdelight:cutting recipe by input ingredient only (ignore tool).
-     * Uses {@link CuttingBoardRecipe#getResults()} so automation always receives the listed
-     * stacks (chance rolls are ignored — deterministic full outputs for the auto machine).
-     * Consumes 1 input item per op.
-     */
-    private Optional<List<ItemStack>> resolveCutting(ItemStack input) {
-        List<ItemStack> best = null;
-        ResourceLocation bestId = null;
-        for (RecipeHolder<CuttingBoardRecipe> holder : level.getRecipeManager().getAllRecipesFor(ModRecipeTypes.CUTTING.get())) {
-            try {
-                CuttingBoardRecipe recipe = holder.value();
-                NonNullList<Ingredient> ingredients = recipe.getIngredients();
-                if (ingredients == null || ingredients.isEmpty() || ingredients.getFirst() == null || !ingredients.getFirst().test(input)) {
-                    continue;
-                }
-                List<ItemStack> results = new ArrayList<>();
-                for (ItemStack stack : recipe.getResults()) {
-                    if (stack != null && !stack.isEmpty()) {
-                        results.add(stack.copy());
-                    }
-                }
-                if (results.isEmpty()) {
-                    continue;
-                }
-                ResourceLocation id = holder.id();
-                if (best == null || id.toString().compareTo(bestId.toString()) < 0) {
-                    best = results;
-                    bestId = id;
-                }
-            } catch (RuntimeException e) {
-                CraftUncraft.warnOnce("recipe:" + holder.id(), "Disassembler skipped cutting recipe " + holder.id() + " (it could not be read)", e);
-            }
-        }
-        return best == null ? Optional.empty() : Optional.of(best);
     }
 
     private Optional<RecipeHolder<CraftingRecipe>> findBestRecipe(ItemStack input) {
@@ -721,73 +590,6 @@ public class DisassemblerBlockEntity extends BlockEntity implements MenuProvider
 
     public boolean stillValid(Player player) {
         return net.minecraft.world.Container.stillValidBlockEntity(this, player);
-    }
-
-    /** Fallback for modded planks: same namespace, path {@code *_planks} → {@code *_slab}. */
-    @Nullable
-    private static Item lookupSlabForPlank(Item plank) {
-        ResourceLocation id = BuiltInRegistries.ITEM.getKey(plank);
-        if (id == null) {
-            return null;
-        }
-        String path = id.getPath();
-        if (!path.endsWith("_planks")) {
-            return null;
-        }
-        ResourceLocation slabId = ResourceLocation.fromNamespaceAndPath(
-                id.getNamespace(),
-                path.substring(0, path.length() - "_planks".length()) + "_slab"
-        );
-        Item slab = BuiltInRegistries.ITEM.get(slabId);
-        return slab == Items.AIR ? null : slab;
-    }
-
-    private static Map<Item, Item> createPlankToSlabMap() {
-        Map<Item, Item> map = new HashMap<>();
-        map.put(Items.OAK_PLANKS, Items.OAK_SLAB);
-        map.put(Items.SPRUCE_PLANKS, Items.SPRUCE_SLAB);
-        map.put(Items.BIRCH_PLANKS, Items.BIRCH_SLAB);
-        map.put(Items.JUNGLE_PLANKS, Items.JUNGLE_SLAB);
-        map.put(Items.ACACIA_PLANKS, Items.ACACIA_SLAB);
-        map.put(Items.DARK_OAK_PLANKS, Items.DARK_OAK_SLAB);
-        map.put(Items.MANGROVE_PLANKS, Items.MANGROVE_SLAB);
-        map.put(Items.CHERRY_PLANKS, Items.CHERRY_SLAB);
-        map.put(Items.BAMBOO_PLANKS, Items.BAMBOO_SLAB);
-        map.put(Items.CRIMSON_PLANKS, Items.CRIMSON_SLAB);
-        map.put(Items.WARPED_PLANKS, Items.WARPED_SLAB);
-        return Map.copyOf(map);
-    }
-
-    private static Map<Item, Item> createBedToWoolMap() {
-        Map<Item, Item> map = new HashMap<>();
-        map.put(Items.WHITE_BED, Items.WHITE_WOOL);
-        map.put(Items.ORANGE_BED, Items.ORANGE_WOOL);
-        map.put(Items.MAGENTA_BED, Items.MAGENTA_WOOL);
-        map.put(Items.LIGHT_BLUE_BED, Items.LIGHT_BLUE_WOOL);
-        map.put(Items.YELLOW_BED, Items.YELLOW_WOOL);
-        map.put(Items.LIME_BED, Items.LIME_WOOL);
-        map.put(Items.PINK_BED, Items.PINK_WOOL);
-        map.put(Items.GRAY_BED, Items.GRAY_WOOL);
-        map.put(Items.LIGHT_GRAY_BED, Items.LIGHT_GRAY_WOOL);
-        map.put(Items.CYAN_BED, Items.CYAN_WOOL);
-        map.put(Items.PURPLE_BED, Items.PURPLE_WOOL);
-        map.put(Items.BLUE_BED, Items.BLUE_WOOL);
-        map.put(Items.BROWN_BED, Items.BROWN_WOOL);
-        map.put(Items.GREEN_BED, Items.GREEN_WOOL);
-        map.put(Items.RED_BED, Items.RED_WOOL);
-        map.put(Items.BLACK_BED, Items.BLACK_WOOL);
-        return Map.copyOf(map);
-    }
-
-    private static Map<Item, Item> createMobHeadToSpawnEggMap() {
-        Map<Item, Item> map = new HashMap<>();
-        map.put(Items.SKELETON_SKULL, Items.SKELETON_SPAWN_EGG);
-        map.put(Items.WITHER_SKELETON_SKULL, Items.WITHER_SKELETON_SPAWN_EGG);
-        map.put(Items.ZOMBIE_HEAD, Items.ZOMBIE_SPAWN_EGG);
-        map.put(Items.CREEPER_HEAD, Items.CREEPER_SPAWN_EGG);
-        map.put(Items.PIGLIN_HEAD, Items.PIGLIN_SPAWN_EGG);
-        map.put(Items.DRAGON_HEAD, Items.ENDER_DRAGON_SPAWN_EGG);
-        return Map.copyOf(map);
     }
 
     private static boolean isDisassemblerUpgrade(ItemStack input) {

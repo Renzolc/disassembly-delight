@@ -1,0 +1,13 @@
+{
+  "required": false,
+  "minVersion": "0.8",
+  "package": "dev.renzo.disassemblydelight.mixin",
+  "plugin": "dev.renzo.disassemblydelight.mixin.DisassemblyDelightMixinPlugin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "sb.StorageContainerMenuBaseMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 0
+  }
+}

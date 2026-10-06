@@ -18,7 +18,7 @@ Recipe: cutting boards across the top and bottom rows, with a knife, an axe and 
 
 ## Disassembly Table Upgrade (Sophisticated Backpacks)
 
-Put an item in the upgrade's slot and the full ingredients of its crafting recipe go into your backpack. A spare upgrade comes apart into its recipe; the Disassembly Table moves in unchanged.
+Put an item in the upgrade's slot (click it in, or shift-click it from your inventory with the tab open) and the full ingredients of its crafting recipe go into your backpack. Items without one use the Disassembly Table's rules: cutting-board recipes, planks and slabs, beds and mob heads. A spare upgrade comes apart into its recipe; the Disassembly Table moves in unchanged.
 
 Recipe (shaped):
 

@@ -87,11 +87,13 @@ R R R
 
 JEI and the recipe book show this recipe (it is a normal shaped recipe in `data/disassembly_delight/recipe/disassembler_upgrade.json`). The old leather recipe is gone.
 
-Only one fits in a backpack. Open the backpack, open the upgrade tab, and put an item in its input slot:
+Only one fits in a backpack. Open the backpack, open the upgrade tab, and put an item in its input slot, either by clicking it in or by shift-clicking it from your inventory while the tab is open (upgrade items still install or go into storage when shift-clicked):
 
 - If the item has a crafting recipe, the **full ingredient counts** go into the backpack.
 - Tag ingredients use the item this mod picked in its `full_uncraft` data, or the first registered item in the tag.
-- Items with no crafting recipe use this mod's `full_uncraft` recipes when there is one, otherwise they move into the backpack unchanged.
+- Items with no usable crafting recipe use this mod's `full_uncraft` recipes when there is one.
+- Otherwise the Disassembly Table's rules apply: planks → 2 slabs, wooden slabs → 1 stick, beds → 3 wool + 3 oak planks, mob heads → spawn egg, and any Farmer's Delight cutting-board recipe (every listed result). So logs, raw meat, fish, flowers, pies and the like come apart too.
+- Items with none of these move into the backpack unchanged.
 - The Disassembly Table moves into the backpack unchanged. It is never taken apart.
 - A spare Disassembly Table Upgrade is taken apart into its recipe: 1 Disassembly Table, 2 hoppers, 1 upgrade base and 3 redstone. The table block does the same with an upgrade fed into it.
 - Backpacks come down one tier, with their contents (see [Backpacks](#backpacks)).

@@ -11,6 +11,10 @@ authors="${mod_authors}"
 displayURL="https://github.com/Renzolc/disassembly-delight"
 description='''${mod_description}'''
 
+# Only applied when Sophisticated Backpacks is installed (see DisassemblyDelightMixinPlugin).
+[[mixins]]
+config="${mod_id}.mixins.json"
+
 [[dependencies.${mod_id}]]
     modId="neoforge"
     type="required"

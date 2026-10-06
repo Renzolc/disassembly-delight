@@ -10,6 +10,7 @@ import dev.renzo.disassemblydelight.ModBlocks;
 import dev.renzo.disassemblydelight.contents.BackpackBreakdown;
 import dev.renzo.disassemblydelight.contents.ContainerDisassembly;
 import dev.renzo.disassemblydelight.recipe.CraftUncraft;
+import dev.renzo.disassemblydelight.recipe.TableRules;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.Containers;
@@ -26,8 +27,13 @@ import net.p3pp3rf1y.sophisticatedcore.upgrades.UpgradeWrapperBase;
 import net.p3pp3rf1y.sophisticatedcore.util.InventoryHelper;
 
 /**
- * One input slot. Any crafting recipe (or this mod's full_uncraft) is reversed into the backpack.
- * An item with no disassemble result is moved into the backpack unchanged.
+ * One input slot. The item is taken apart into the backpack: full returns from this mod's full_uncraft recipes and
+ * the reverse of its crafting (or smithing) recipe first, then the Disassembly Table's own rules (wood, beds, mob
+ * heads, Farmer's Delight cutting board). Stored contents come out first. Backpacks come down one tier.
+ * Only an item with no disassemble result at all is moved into the backpack unchanged.
+ *
+ * <p>Items reach the slot by clicking them in, or by shift-clicking them from the player's inventory while this
+ * upgrade's tab is open ({@code StorageContainerMenuBaseMixin}).
  */
 public class DisassemblerUpgradeWrapper extends UpgradeWrapperBase<DisassemblerUpgradeWrapper, DisassemblerUpgradeItem>
         implements ITickableUpgrade {
@@ -100,6 +106,10 @@ public class DisassemblerUpgradeWrapper extends UpgradeWrapperBase<DisassemblerU
         Optional<Resolved> resolved = resolve(level);
         if (resolved.isEmpty()) {
             // Nothing to disassemble: move the item into the backpack unchanged so the input slot clears.
+            if (dev.renzo.disassemblydelight.DisassemblyDelight.LOGGER.isDebugEnabled()) {
+                dev.renzo.disassemblydelight.DisassemblyDelight.LOGGER.debug("Disassembly Table Upgrade: {} x{} has no breakdown here; moving it into the backpack unchanged",
+                        CraftUncraft.itemId(input), input.getCount());
+            }
             return passThrough(input);
         }
         Resolved op = resolved.get();
@@ -221,11 +231,37 @@ public class DisassemblerUpgradeWrapper extends UpgradeWrapperBase<DisassemblerU
             return BackpackBreakdown.plan(level, input)
                     .map(plan -> new Resolved(plan.consume(), plan.outputs(), plan.commit()));
         }
-        ContainerDisassembly.Base base = CraftUncraft.resolve(level, input)
-                .map(crafted -> new ContainerDisassembly.Base(crafted.consume(), crafted.results()))
-                .orElse(null);
-        return ContainerDisassembly.plan(level, input, base)
+        return ContainerDisassembly.plan(level, input, base(level, input))
                 .map(plan -> new Resolved(plan.consume(), plan.outputs(), plan.commit()));
+    }
+
+    /**
+     * The upgrade's own breakdown of one operation, before stored contents are added:
+     * <ol>
+     * <li>full returns: this mod's full_uncraft recipes and the reverse of the item's crafting or smithing recipe
+     * (whichever returns more, see {@link CraftUncraft});</li>
+     * <li>otherwise the Disassembly Table's rules: planks, wooden slabs, beds, mob heads and Farmer's Delight
+     * cutting-board recipes ({@link TableRules}), one item at a time.</li>
+     * </ol>
+     * Before 1.0.3 the upgrade stopped after step 1, so logs, raw meat and fish, flowers, pies, single planks and slabs,
+     * mob heads and every other cutting-board-only item went into the backpack unchanged.
+     */
+    @Nullable
+    private static ContainerDisassembly.Base base(Level level, ItemStack input) {
+        Optional<CraftUncraft.Result> crafted = CraftUncraft.resolve(level, input);
+        if (crafted.isPresent()) {
+            return new ContainerDisassembly.Base(crafted.get().consume(), crafted.get().results());
+        }
+        try {
+            return TableRules.resolve(level, input)
+                    .filter(results -> !results.isEmpty())
+                    .map(results -> new ContainerDisassembly.Base(1, results))
+                    .orElse(null);
+        } catch (RuntimeException e) {
+            CraftUncraft.warnOnce("rules:" + CraftUncraft.itemId(input),
+                    "Disassembler Upgrade skipped the table rules for " + CraftUncraft.itemId(input), e);
+            return null;
+        }
     }
 
     /** Exposed for tests: what the upgrade would put into the backpack for this input (empty = moved unchanged). */
