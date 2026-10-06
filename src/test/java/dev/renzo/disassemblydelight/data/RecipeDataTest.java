@@ -95,7 +95,7 @@ class RecipeDataTest {
         assertStep("sophisticatedbackpacks/netherite_backpack.json", sb + "netherite_backpack",
                 Map.of(sb + "diamond_backpack", 1, "minecraft:netherite_ingot", 1));
         assertStep("sophisticatedbackpacks/diamond_backpack.json", sb + "diamond_backpack",
-                Map.of(sb + "gold_backpack", 1, "minecraft:gold_ingot", 8));
+                Map.of(sb + "gold_backpack", 1, "minecraft:diamond", 8));
         assertStep("sophisticatedbackpacks/gold_backpack.json", sb + "gold_backpack",
                 Map.of(sb + "iron_backpack", 1, "minecraft:gold_ingot", 8));
         assertStep("sophisticatedbackpacks/iron_backpack.json", sb + "iron_backpack",

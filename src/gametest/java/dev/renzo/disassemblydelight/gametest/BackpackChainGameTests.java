@@ -132,8 +132,8 @@ public class BackpackChainGameTests {
         ItemStackHandler items = be.getItems();
         helper.succeedWhen(() -> {
             List<ItemStack> out = outputs(items);
-            helper.assertTrue(count(out, sb("gold_backpack")) == 1 && count(out, Items.GOLD_INGOT) == 8 && out.size() == 2,
-                    "diamond backpack -> gold backpack + 8 gold ingots, got " + out);
+            helper.assertTrue(count(out, sb("gold_backpack")) == 1 && count(out, Items.DIAMOND) == 8 && out.size() == 2,
+                    "diamond backpack -> gold backpack + 8 diamonds, got " + out);
             helper.assertTrue(!out.get(0).has(ModCoreDataComponents.STORAGE_UUID.get()), "an empty backpack needs no storage");
         });
     }
@@ -143,7 +143,7 @@ public class BackpackChainGameTests {
         var level = helper.getLevel();
         String[][] chain = {
                 {"netherite_backpack", "diamond_backpack", "minecraft:netherite_ingot", "1"},
-                {"diamond_backpack", "gold_backpack", "minecraft:gold_ingot", "8"},
+                {"diamond_backpack", "gold_backpack", "minecraft:diamond", "8"},
                 {"gold_backpack", "iron_backpack", "minecraft:gold_ingot", "8"},
                 {"iron_backpack", "copper_backpack", "minecraft:iron_ingot", "4"},
                 {"copper_backpack", "backpack", "minecraft:copper_ingot", "8"},

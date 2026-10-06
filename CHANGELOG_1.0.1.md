@@ -8,7 +8,7 @@ The Disassembly Table and the Disassembly Table Upgrade now take a Sophisticated
 
 - Emerald backpack (Sophisticated Emerald Upgrade) → netherite backpack + 1 block of emerald + 1 emerald upgrade template
 - Netherite → diamond backpack + 1 netherite ingot (no smithing template)
-- Diamond → gold backpack + 8 gold ingots
+- Diamond → gold backpack + 8 diamonds
 - Gold → iron backpack + 8 gold ingots
 - Iron → copper backpack + 4 iron ingots (what the copper → iron recipe costs, so no free iron)
 - Copper → backpack + 8 copper ingots

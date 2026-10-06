@@ -36,7 +36,7 @@ Both the table and the upgrade turn a backpack into the next-lower tier, with ev
 
 - Emerald (Sophisticated Emerald Upgrade) → netherite backpack + block of emerald + emerald upgrade template
 - Netherite → diamond backpack + 1 netherite ingot
-- Diamond → gold backpack + 8 gold ingots
+- Diamond → gold backpack + 8 diamonds
 - Gold → iron backpack + 8 gold ingots
 - Iron → copper backpack + 4 iron ingots
 - Copper → backpack + 8 copper ingots

@@ -109,7 +109,7 @@ Both the table and the upgrade take a Sophisticated backpack down **one tier at 
 |---|---|
 | Emerald backpack (Sophisticated Emerald Upgrade) | netherite backpack + 1 block of emerald + 1 emerald upgrade template |
 | Netherite backpack | diamond backpack + 1 netherite ingot |
-| Diamond backpack | gold backpack + 8 gold ingots |
+| Diamond backpack | gold backpack + 8 diamonds |
 | Gold backpack | iron backpack + 8 gold ingots |
 | Iron backpack | copper backpack + 4 iron ingots |
 | Copper backpack | backpack + 8 copper ingots |
@@ -118,7 +118,7 @@ Both the table and the upgrade take a Sophisticated backpack down **one tier at 
 Notes on the chain:
 
 - Iron returns 4 iron ingots because that is what the copper → iron recipe costs. Returning 8 would turn a copper backpack plus 4 iron into 8 iron, an endless iron source.
-- Netherite returns no smithing template, and diamond returns gold ingots rather than diamonds. These are deliberate and match the materials this pack uses for those steps.
+- Netherite returns no smithing template. This is deliberate.
 - The steps are ordinary `full_uncraft` recipes under `data/disassembly_delight/recipe/full_uncraft/sophisticatedbackpacks/`, so a datapack can change them.
 
 What carries over into the lower backpack:
